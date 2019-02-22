@@ -1,0 +1,44 @@
+spring:
+  application:
+    name: services-registry-center
+  profiles:
+    active: master
+eureka:
+  environment: dev
+  datacenter: bj
+---
+server:
+  port: 8081
+eureka:
+  instance:
+    #prefer-ip-address: true
+    hostname: center1
+  client:
+    serviceUrl:
+      defaultZone: http://center2:8082/eureka/,http://center3:8083/eureka/
+spring:
+  profiles: master
+---
+server:
+  port: 8082
+eureka:
+  instance:
+#    prefer-ip-address: true
+    hostname: center2
+  client:
+    serviceUrl:
+      defaultZone: http://center1:8081/eureka/,http://center3:8083/eureka/
+spring:
+  profiles: slaver1
+---
+server:
+  port: 8083
+eureka:
+  instance:
+#    prefer-ip-address: true
+    hostname: center3
+  client:
+    serviceUrl:
+      defaultZone: http://center1:8081/eureka/,http://center2:8082/eureka/
+spring:
+  profiles: slaver2
